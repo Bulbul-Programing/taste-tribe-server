@@ -10,7 +10,7 @@ export type TUser = {
     updatedAt?: Date,
 }
 
-const userRoles = {
+export const userRoles = {
     user: 'user',
     admin: 'admin'
 }

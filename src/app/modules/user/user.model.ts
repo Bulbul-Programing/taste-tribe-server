@@ -2,6 +2,7 @@ import { model, Schema } from "mongoose";
 import { TUser } from "./user.interface";
 import bcrypt from 'bcrypt';
 import config from "../../config";
+import { NextFunction } from "express";
 
 const userSchema = new Schema<TUser>({
     name: { type: "string", required: true },
@@ -12,10 +13,15 @@ const userSchema = new Schema<TUser>({
     PremiumStatus: { type: "boolean", default: false },
 })
 
-userSchema.pre('save', async function (next) {
-    const userData = this
-    console.log(userData);
-    // userData.password = await bcrypt.hash(userData.password, Number(config.bcrypt_round))
+userSchema.pre('save', async function(next){
+   const userData = this
+   const hashedPassword = await bcrypt.hash((userData.password as string), 10)
+   this.password = hashedPassword
+   next()
+})
+
+userSchema.post('save', async function(doc, next){
+    doc.password = ''
     next()
 })
 
