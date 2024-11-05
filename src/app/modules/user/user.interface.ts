@@ -4,8 +4,8 @@ export type TUser = {
     email: String,
     password: String,
     role: 'admin' | 'user',
-    profile_picture: String,
-    PremiumStatus: Boolean,
+    profilePicture: String,
+    premiumStatus: Boolean,
     createdAt?: Date,
     updatedAt?: Date,
 }

@@ -9,18 +9,18 @@ const userSchema = new Schema<TUser>({
     email: { type: "string", required: true, unique: true },
     password: { type: "string", required: true, select: 0 },
     role: { type: "string", enum: ['admin', 'user'], default: 'user' },
-    profile_picture: { type: "string", default: null },
-    PremiumStatus: { type: "boolean", default: false },
+    profilePicture: { type: "string", default: null },
+    premiumStatus: { type: "boolean", default: false },
 })
 
-userSchema.pre('save', async function(next){
-   const userData = this
-   const hashedPassword = await bcrypt.hash((userData.password as string), 10)
-   this.password = hashedPassword
-   next()
+userSchema.pre('save', async function (next) {
+    const userData = this
+    const hashedPassword = await bcrypt.hash((userData.password as string), 10)
+    this.password = hashedPassword
+    next()
 })
 
-userSchema.post('save', async function(doc, next){
+userSchema.post('save', async function (doc, next) {
     doc.password = ''
     next()
 })

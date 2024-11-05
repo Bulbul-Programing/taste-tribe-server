@@ -13,7 +13,7 @@ app.use(cors({
   methods : ['GET', 'POST', 'PUT', 'DELETE']
 }))
 
-app.use('/api/v1/', router)
+app.use('/api/v1', router)
 app.use(globalErrorHandler);
 
 app.get('/', (req : Request, res : Response) => {
