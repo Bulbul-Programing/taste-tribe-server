@@ -2,7 +2,7 @@ import { Document } from "mongoose";
 
 export interface TResetPassword extends Document {
     email : string;
-    tempPassword ?: string;
+    token : string;
     createdAt: Date;
 }
 

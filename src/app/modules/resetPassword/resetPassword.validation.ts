@@ -1,19 +1,18 @@
 import { z } from 'zod';
 
-const resetPassword = z.object({
+const resetPasswordMailSend = z.object({
     body: z.object({
         email: z.string({ required_error: "Email is required" }),
     })
 });
-
-const validateCode = z.object({
+const resetPassword = z.object({
     body: z.object({
-        email: z.string({ required_error: "Email is required" }),
-        code: z.string({ required_error: "Code is required" }),
+        password: z.string({ required_error: "Password is required" }),
+        token: z.string({ required_error: "Token is required" })
     })
 });
 
 export const resetPasswordValidationSchema = {
-    resetPassword,
-    validateCode
+    resetPasswordMailSend,
+    resetPassword
 }

@@ -3,9 +3,9 @@ import catchAsync from "../../utils/catchAsync"
 import { resetPasswordService } from "./resetPassword.service"
 
 
-const resetPassword = catchAsync(async (req: Request, res: Response) => {
+const resetPasswordMailSend = catchAsync(async (req: Request, res: Response) => {
     const payload = req.body
-    const result = await resetPasswordService.resetPasswordIntoDB(payload)
+    const result = await resetPasswordService.resetPasswordMailSendIntoDB(payload)
 
     res.status(200).json({
         success: true,
@@ -13,18 +13,19 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
         data: result
     })
 })
-const validateCode = catchAsync(async (req: Request, res: Response) => {
+
+const resetPassword = catchAsync(async (req: Request, res: Response) => {
     const payload = req.body
-    const result = await resetPasswordService.validateCodeIntoDB(payload)
+    const result = await resetPasswordService.resetPassword(payload)
 
     res.status(200).json({
         success: true,
-        massage: 'code validate successfully ',
+        massage: 'password change successful',
         data: result
     })
 })
 
 export const resetPasswordController = {
-    resetPassword,
-    validateCode
+     resetPasswordMailSend,
+     resetPassword
 }

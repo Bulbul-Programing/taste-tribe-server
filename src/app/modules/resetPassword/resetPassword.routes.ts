@@ -6,8 +6,7 @@ import { resetPasswordController } from './resetPassword.controller';
 
 const router = express.Router();
 
-router.post('/', validateRequest(resetPasswordValidationSchema.resetPassword), resetPasswordController.resetPassword)
-router.post('/codeValidate', validateRequest(resetPasswordValidationSchema.validateCode), resetPasswordController.validateCode)
-
+router.post('/', validateRequest(resetPasswordValidationSchema.resetPasswordMailSend), resetPasswordController.resetPasswordMailSend)
+router.put('/', validateRequest(resetPasswordValidationSchema.resetPassword), resetPasswordController.resetPassword)
 
 export const resetPasswordRoute = router
