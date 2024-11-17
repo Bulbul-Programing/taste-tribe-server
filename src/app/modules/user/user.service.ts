@@ -16,6 +16,7 @@ const createNewUserIntoDB = async (payload: TUser) => {
     const jwtPayload = {
         email: userData.email.toString(),
         role: userData.role,
+        id : userData._id,
         profilePicture: userData.profilePicture.toString(),
     };
 

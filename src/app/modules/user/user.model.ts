@@ -3,13 +3,17 @@ import { TUser } from "./user.interface";
 import bcrypt from 'bcrypt';
 import config from "../../config";
 import { NextFunction } from "express";
-
+const follower = new Schema({
+    id: { type: String }
+})
 const userSchema = new Schema<TUser>({
-    name: { type: "string", required: true },
-    email: { type: "string", required: true, unique: true },
-    password: { type: "string", required: true, select: 0 },
-    role: { type: "string", enum: ['admin', 'user'], default: 'user' },
-    profilePicture: { type: "string", default: null },
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true, select: 0 },
+    role: { type: String, enum: ['admin', 'user'], default: 'user' },
+    followers: { type: [follower], required: true },
+    following: { type: [follower], required: true },
+    profilePicture: { type: String, default: null },
     premiumStatus: { type: "boolean", default: false },
 })
 

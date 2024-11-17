@@ -24,6 +24,7 @@ const loginUser = async (payload: TLogin) => {
   const jwtPayload = {
     email: isExistUser.email.toString(),
     role: isExistUser.role,
+    id : isExistUser._id,
     profilePicture: isExistUser.profilePicture.toString(),
   };
 

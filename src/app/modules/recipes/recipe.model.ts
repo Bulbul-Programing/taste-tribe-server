@@ -6,7 +6,7 @@ const recipeSchema = new Schema<TRecipe>({
     title: { type: String, required: true },
     description: { type: String, required: true },
     ingredients: [{ type: String, required: true }],
-    instructions: [{ type: String, required: true }],
+    instructions: [{ title: { type: String, required: true }, time: { type: String, required: true } }],
     cookingTime: { type: Number, required: true },
     category: { type: String, required: true },
     image: { type: String, required: true },
