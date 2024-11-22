@@ -3,8 +3,8 @@ import catchAsync from "../../utils/catchAsync";
 import { recipeService } from "./recipe.service";
 
 const getAllRecipes = catchAsync(async (req: Request, res: Response) => {
-
-    const result = await recipeService.getAllRecipesIntoDB()
+    const query = req.query
+    const result = await recipeService.getAllRecipesIntoDB(query)
 
     res.status(200).json({
         success: true,

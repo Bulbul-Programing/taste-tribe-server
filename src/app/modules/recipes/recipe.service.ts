@@ -1,10 +1,20 @@
+import QueryBuilder from "../../builder/QueryBuilder";
 import AppError from "../../error/AppError";
 import { userModel } from "../user/user.model";
+import { recipeSearchableField } from "./recipe.const";
 import { TRecipe } from "./recipe.interface";
 import { recipeModel } from "./recipe.model";
 
-const getAllRecipesIntoDB = async () => {
-    const result = await recipeModel.find()
+const getAllRecipesIntoDB = async (query: Record<string, unknown>) => {
+    const recipeQuery = new QueryBuilder(recipeModel.find(), query)
+        .searching(recipeSearchableField)
+        .filter()
+        .sort()
+        .paginate()
+        .fields()
+        .priceFilter()
+
+    const result = await recipeQuery.modelQuery
     return result
 }
 

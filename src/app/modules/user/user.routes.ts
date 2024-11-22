@@ -5,6 +5,7 @@ import { validateRequest } from '../../middleware/validateRequest';
 
 const router = express.Router()
 
-router.post('/signup',validateRequest(userValidationSchema.createUserValidationSchema), userController.createUser)
+router.post('/signup', validateRequest(userValidationSchema.createUserValidationSchema), userController.createUser)
+router.put('/update', validateRequest(userValidationSchema.updateUserValidationSchema), userController.updateUser)
 
 export const userRouter = router
