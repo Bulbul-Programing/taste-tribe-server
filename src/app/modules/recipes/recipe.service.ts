@@ -18,6 +18,23 @@ const getAllRecipesIntoDB = async (query: Record<string, unknown>) => {
     return result
 }
 
+const getUserAllRecipesIntoDB = async (email: string, query: Record<string, unknown>) => {
+    const isExistUser = await userModel.findOne({ email: email })
+    if (!isExistUser) {
+        throw new AppError(401, 'User not found')
+    }
+    const recipeQuery = new QueryBuilder(recipeModel.find({ userId: isExistUser._id }), query)
+        .searching(recipeSearchableField)
+        .filter()
+        .sort()
+        .paginate()
+        .fields()
+        .priceFilter()
+
+    const result = await recipeQuery.modelQuery
+    return result
+}
+
 const createRecipeIntoDB = async (payload: TRecipe) => {
     const user = await userModel.findById(payload.userId)
     if (!user) {
@@ -51,6 +68,7 @@ const deleteRecipeIntoDB = async (id: string) => {
 
 export const recipeService = {
     getAllRecipesIntoDB,
+    getUserAllRecipesIntoDB,
     createRecipeIntoDB,
     updateRecipeIntoDB,
     deleteRecipeIntoDB

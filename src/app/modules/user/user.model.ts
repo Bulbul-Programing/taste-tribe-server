@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import config from "../../config";
 import { NextFunction } from "express";
 const follower = new Schema({
-    id: { type: String }
+    id: { type: String , ref : 'user'}
 })
 const userSchema = new Schema<TUser>({
     name: { type: String, required: true },

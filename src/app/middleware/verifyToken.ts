@@ -25,7 +25,7 @@ const verifyToken = (...requiredRoles: TUserRole[]) => {
       config.accessTokenSecrete as string,
     ) as JwtPayload;
 
-    const { email, role, iat } = decoded;
+    const { email, role } = decoded;
     const user = await isUserExist(email);
 
     if (!user) {

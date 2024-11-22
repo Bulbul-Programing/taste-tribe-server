@@ -13,6 +13,18 @@ const getAllRecipes = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
+const getUserAllRecipes = catchAsync(async (req: Request, res: Response) => {
+    const query = req.query
+    const { email } = req.user
+    const result = await recipeService.getUserAllRecipesIntoDB(email, query)
+
+    res.status(200).json({
+        success: true,
+        massage: 'Recipe retrieve successfully',
+        data: result
+    })
+})
+
 const createRecipe = catchAsync(async (req: Request, res: Response) => {
     const recipeData = req.body
     const result = await recipeService.createRecipeIntoDB(recipeData)
@@ -49,6 +61,7 @@ const deleteRecipe = catchAsync(async (req: Request, res: Response) => {
 
 export const recipeController = {
     getAllRecipes,
+    getUserAllRecipes,
     createRecipe,
     updateRecipe,
     deleteRecipe
