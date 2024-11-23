@@ -24,6 +24,7 @@ export type TUpdateUserData = {
     name?: string,
     email: string,
     currentPassword?: string,
+    profilePicture?: string,
     newPassword?: string,
 }
 

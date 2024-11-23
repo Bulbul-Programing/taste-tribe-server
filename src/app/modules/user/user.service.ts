@@ -45,7 +45,6 @@ const updateUserDataIntoDB = async (payload: TUpdateUserData) => {
     }
 
     let updateInfo: TUpdateUserInfo = {}
-
     if (payload.currentPassword && payload.newPassword) {
         const isPasswordMatch = await isPasswordMatched(payload.currentPassword, isExistUser.password.toString())
 
@@ -60,7 +59,9 @@ const updateUserDataIntoDB = async (payload: TUpdateUserData) => {
     if (payload.name) {
         updateInfo.name = payload.name
     }
-
+    if (payload.profilePicture) {
+        updateInfo.profilePicture = payload.profilePicture
+    }
     const result = await userModel.updateOne({ email: payload.email }, updateInfo, { new: true })
     return result
 }
