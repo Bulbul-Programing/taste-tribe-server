@@ -66,7 +66,17 @@ const updateUserDataIntoDB = async (payload: TUpdateUserData) => {
     return result
 }
 
+const updateUserPremiumStatusIntoDB = async (transId: string) => {
+    const isExistTransId = await userModel.findOne({ transitionId: transId })
+    if (!isExistTransId) {
+        throw new AppError(401, 'Invalid transition id provided!')
+    }
+    const result = await userModel.updateOne({ transitionId: transId }, { premiumStatus: true })
+    return result
+}
+
 export const userService = {
     createNewUserIntoDB,
-    updateUserDataIntoDB
+    updateUserDataIntoDB,
+    updateUserPremiumStatusIntoDB
 }

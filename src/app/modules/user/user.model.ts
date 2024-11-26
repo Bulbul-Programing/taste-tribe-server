@@ -16,6 +16,7 @@ const userSchema = new Schema<TUser>({
     following: { type: [follower], required: true },
     profilePicture: { type: String, default: null },
     premiumStatus: { type: "boolean", default: false },
+    transitionId : {type : String, required : false}
 })
 
 userSchema.pre('save', async function (next) {

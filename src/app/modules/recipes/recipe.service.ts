@@ -35,6 +35,15 @@ const getUserAllRecipesIntoDB = async (email: string, query: Record<string, unkn
     return result
 }
 
+const getTotalUserRecipeIntoDB = async (email: string) => {
+    const isExistUser = await userModel.findOne({ email: email })
+    if (!isExistUser) {
+        throw new AppError(401, 'User not found')
+    }
+    const totalRecipe = await recipeModel.countDocuments({ userId: isExistUser._id })
+    return totalRecipe;
+}
+
 const createRecipeIntoDB = async (payload: TRecipe) => {
     const user = await userModel.findById(payload.userId)
     if (!user) {
@@ -71,5 +80,6 @@ export const recipeService = {
     getUserAllRecipesIntoDB,
     createRecipeIntoDB,
     updateRecipeIntoDB,
-    deleteRecipeIntoDB
+    deleteRecipeIntoDB,
+    getTotalUserRecipeIntoDB
 }

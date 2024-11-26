@@ -25,7 +25,7 @@ const recipeUpdateSchema = z.object({
         ingredients: z.array(z.string({ message: "Each ingredient is required" })).optional(),
         instructions: z.array(z.object({
             title: z.string({ message: "title is required" }),
-            time: z.string({ message: "time is required" })
+            time: z.number({ message: "time is required" })
         })).optional(),
         cookingTime: z.number()
             .min(1, { message: "Cooking time must be a positive number" })

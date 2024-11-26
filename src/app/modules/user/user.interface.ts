@@ -13,6 +13,7 @@ export type TUser = {
     phoneNumber : string,
     createdAt?: Date,
     updatedAt?: Date,
+    transitionId ? : string
 }
 
 export const userRoles = {
