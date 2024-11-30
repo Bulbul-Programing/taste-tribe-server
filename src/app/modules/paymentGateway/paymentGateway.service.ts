@@ -65,7 +65,6 @@ const paymentProcessIntoDB = async (
   }
   const userUpdate = await userModel.updateOne({ email: user.email }, updateInfo, { new: true });
   const url = await generateLink();
-  console.log('bulbul');
   return url;
 };
 

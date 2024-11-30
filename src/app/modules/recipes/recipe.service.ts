@@ -6,7 +6,7 @@ import { TRecipe } from "./recipe.interface";
 import { recipeModel } from "./recipe.model";
 
 const getAllRecipesIntoDB = async (query: Record<string, unknown>) => {
-    const recipeQuery = new QueryBuilder(recipeModel.find(), query)
+    const recipeQuery = new QueryBuilder(recipeModel.find().populate('userId'), query)
         .searching(recipeSearchableField)
         .filter()
         .sort()
@@ -33,6 +33,15 @@ const getUserAllRecipesIntoDB = async (email: string, query: Record<string, unkn
 
     const result = await recipeQuery.modelQuery
     return result
+}
+
+const getRecipeDetailsIntoDB = async (recipeId: string) => {
+    const isExistRecipe = await recipeModel.findOne({ _id: recipeId }).populate('userId')
+
+    if (!isExistRecipe) {
+        throw new AppError(404, 'Recipe not found')
+    }
+    return isExistRecipe
 }
 
 const getTotalUserRecipeIntoDB = async (email: string) => {
@@ -78,6 +87,7 @@ const deleteRecipeIntoDB = async (id: string) => {
 export const recipeService = {
     getAllRecipesIntoDB,
     getUserAllRecipesIntoDB,
+    getRecipeDetailsIntoDB,
     createRecipeIntoDB,
     updateRecipeIntoDB,
     deleteRecipeIntoDB,

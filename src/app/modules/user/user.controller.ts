@@ -22,7 +22,6 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
 const updateUserPremiumStatus = catchAsync(async (req: Request, res: Response) => {
     const transId = req.params.transId;
     const result = await userService.updateUserPremiumStatusIntoDB(transId) as any
-    console.log(result);
     if (result.modifiedCount > 0) {
         res.redirect(`http://localhost:3000/payment/success`)
     }
