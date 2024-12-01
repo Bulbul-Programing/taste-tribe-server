@@ -38,6 +38,34 @@ const createNewUserIntoDB = async (payload: TUser) => {
     return { accessToken, refreshToken }
 }
 
+const addFollowerIntoDB = async (payload: { userId: string, followerId: string }) => {
+    const isExistUser = await userModel.findById(payload.userId)
+    if (!isExistUser) {
+        throw new AppError(401, 'User not found')
+    }
+
+    const isExistFollower = await userModel.findById(payload.followerId)
+    if (!isExistFollower) {
+        throw new AppError(401, 'Follower user not found')
+    }
+
+    if (isExistFollower && isExistFollower!.followers.length < 1) {
+        const result = await userModel.updateOne({ _id: payload.followerId }, { $push: { followers: payload.userId } })
+        await userModel.updateOne({ _id: payload.userId }, { $push: { following: payload.followerId } })
+        return result
+    }
+
+    const isAlreadyFollower = isExistFollower.followers.some((follower) => follower.toString() === payload.userId)
+    if (isAlreadyFollower) {
+        throw new AppError(403, 'You are already following this user')
+    }
+
+    const result = await userModel.updateOne({ _id: payload.followerId }, { $push: { followers: payload.userId } })
+    await userModel.updateOne({ _id: payload.userId }, { $push: { following: payload.followerId } })
+    return result
+
+}
+
 const updateUserDataIntoDB = async (payload: TUpdateUserData) => {
     const isExistUser = await isUserExist(payload.email)
     if (!isExistUser) {
@@ -78,5 +106,6 @@ const updateUserPremiumStatusIntoDB = async (transId: string) => {
 export const userService = {
     createNewUserIntoDB,
     updateUserDataIntoDB,
+    addFollowerIntoDB,
     updateUserPremiumStatusIntoDB
 }

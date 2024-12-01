@@ -19,6 +19,21 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
+const addFollower = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.body.userId;
+    const followerId = req.body.followerId;
+    const payloadData = {
+        userId,
+        followerId
+    }
+    const result = await userService.addFollowerIntoDB(payloadData);
+    res.status(200).json({
+        success: true,
+        massage: 'User Follow successfully',
+        data: result
+    })
+})
+
 const updateUserPremiumStatus = catchAsync(async (req: Request, res: Response) => {
     const transId = req.params.transId;
     const result = await userService.updateUserPremiumStatusIntoDB(transId) as any
@@ -32,6 +47,7 @@ const updateUserPremiumStatus = catchAsync(async (req: Request, res: Response) =
 
 export const userController = {
     createUser,
+    addFollower,
     updateUser,
     updateUserPremiumStatus
 }

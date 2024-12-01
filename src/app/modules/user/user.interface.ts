@@ -7,8 +7,8 @@ export type TUser = {
     password: String,
     role: 'admin' | 'user',
     profilePicture: String,
-    followers: TFollowers[],
-    following: TFollowers[],
+    followers: string[],
+    following: string[],
     premiumStatus: Boolean,
     phoneNumber : string,
     createdAt?: Date,
@@ -29,9 +29,7 @@ export type TUpdateUserData = {
     newPassword?: string,
 }
 
-type TFollowers = {
-    id?: Types.ObjectId,
-}
+type TFollowers = [string]
 
 export type TUpdateUserInfo = {
     name ?: String,
