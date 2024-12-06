@@ -35,6 +35,24 @@ const getRecipeDetails = catchAsync(async (req: Request, res: Response) => {
         data: result
     })
 })
+const voteInRecipe = catchAsync(async (req: Request, res: Response) => {
+    const { voteType } = req.body;
+    const { id } = req.user
+    const recipeId = req.params.recipeId;
+
+    const voteData = {
+        userId: id,
+        recipeId: recipeId,
+        voteType: voteType
+    }
+    const result = await recipeService.addVotingInRecipeIntoDB(voteData)
+
+    res.status(200).json({
+        success: true,
+        massage: 'Recipe Voting successfully',
+        data: result
+    })
+})
 
 const getTotalUserRecipe = catchAsync(async (req: Request, res: Response) => {
     const { email } = req.user
@@ -88,5 +106,6 @@ export const recipeController = {
     createRecipe,
     updateRecipe,
     deleteRecipe,
-    getTotalUserRecipe
+    getTotalUserRecipe,
+    voteInRecipe
 }

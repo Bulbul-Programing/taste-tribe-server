@@ -13,6 +13,7 @@ const getAllRecipesIntoDB = async (query: Record<string, unknown>) => {
         .paginate()
         .fields()
         .priceFilter()
+        .category()
 
     const result = await recipeQuery.modelQuery
     return result
@@ -84,6 +85,39 @@ const deleteRecipeIntoDB = async (id: string) => {
     return result;
 }
 
+const addVotingInRecipeIntoDB = async (payload: { userId: string, recipeId: string, voteType: 'upVote' | 'downVote' }) => {
+    const isExistRecipe = await recipeModel.findById(payload.recipeId)
+    if (!isExistRecipe) {
+        throw new AppError(404, 'Recipe not found!')
+    }
+    const isExistUser = await userModel.findById(payload.userId)
+    if (!isExistUser) {
+        throw new AppError(401, 'User not found!')
+    }
+
+    if (payload.voteType === 'upVote') {
+        if (isExistRecipe.upVote.includes(payload.userId)) {
+            throw new AppError(409, 'You have already upVoted this item.')
+        }
+        if (isExistRecipe.downVote.includes(payload.userId)) {
+            await recipeModel.updateOne({ _id: payload.recipeId }, { $pull: { downVote: payload.userId } })
+        }
+        const result = await recipeModel.updateOne({ _id: payload.recipeId }, { $push: { upVote: payload.userId } })
+        return result
+    }
+    else {
+        if (isExistRecipe.downVote.includes(payload.userId)) {
+            throw new AppError(409, 'You have already downVoted this item.')
+        }
+
+        if (isExistRecipe.upVote.includes(payload.userId)) {
+            await recipeModel.updateOne({ _id: payload.recipeId }, { $pull: { upVote: payload.userId } })
+        }
+        const result = await recipeModel.updateOne({ _id: payload.recipeId }, { $push: { downVote: payload.userId } })
+        return result
+    }
+}
+
 export const recipeService = {
     getAllRecipesIntoDB,
     getUserAllRecipesIntoDB,
@@ -91,5 +125,6 @@ export const recipeService = {
     createRecipeIntoDB,
     updateRecipeIntoDB,
     deleteRecipeIntoDB,
-    getTotalUserRecipeIntoDB
+    getTotalUserRecipeIntoDB,
+    addVotingInRecipeIntoDB
 }

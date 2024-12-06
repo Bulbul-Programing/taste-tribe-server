@@ -12,5 +12,6 @@ router.get('/details/:recipeId', recipeController.getRecipeDetails)
 router.get('/user/count', verifyToken('user'), recipeController.getTotalUserRecipe)
 router.post('/create', validateRequest(recipeValidationSchema.recipeCreateSchema), recipeController.createRecipe)
 router.put('/:id', validateRequest(recipeValidationSchema.recipeUpdateSchema), recipeController.updateRecipe)
+router.put('/voting/:recipeId', verifyToken('user'), validateRequest(recipeValidationSchema.recipeVotingValidationSchema), recipeController.voteInRecipe)
 router.delete('/:id', recipeController.deleteRecipe)
 export const recipesRouter = router

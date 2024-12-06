@@ -66,6 +66,35 @@ const addFollowerIntoDB = async (payload: { userId: string, followerId: string }
 
 }
 
+const removeFollowerIntoDB = async (payload: { userId: string, followerId: string }) => {
+    const isExistUser = await userModel.findById(payload.userId)
+    if (!isExistUser) {
+        throw new AppError(401, 'User not found')
+    }
+
+    const isExistFollower = await userModel.findById(payload.followerId)
+    if (!isExistFollower) {
+        throw new AppError(401, 'Follower user not found')
+    }
+
+    if (!isExistFollower.followers.includes(payload.userId)) {
+        throw new AppError(403, 'You are not following this user')
+    }
+
+    const result = await userModel.updateOne({ _id: payload.followerId }, { $pull: { followers: payload.userId } })
+  
+    await userModel.updateOne({ _id: payload.userId }, { $pull: { following: payload.followerId } })
+    return result
+
+
+}
+
+const getFollowerAndFollowingDataIntoDB = async (userIds: { followIds: string[] }) => {
+    
+    const result = await userModel.find({ _id: { $in: userIds.followIds } }).select({ name: 1, profilePicture : 1, email : 1 })
+    return result
+}
+
 const updateUserDataIntoDB = async (payload: TUpdateUserData) => {
     const isExistUser = await isUserExist(payload.email)
     if (!isExistUser) {
@@ -107,5 +136,7 @@ export const userService = {
     createNewUserIntoDB,
     updateUserDataIntoDB,
     addFollowerIntoDB,
-    updateUserPremiumStatusIntoDB
+    updateUserPremiumStatusIntoDB,
+    removeFollowerIntoDB,
+    getFollowerAndFollowingDataIntoDB
 }

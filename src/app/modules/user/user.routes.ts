@@ -7,6 +7,8 @@ const router = express.Router()
 
 router.post('/signup', validateRequest(userValidationSchema.createUserValidationSchema), userController.createUser)
 router.post('/addFollower', validateRequest(userValidationSchema.addFollowerValidationSchema), userController.addFollower)
+router.post('/removeFollower', validateRequest(userValidationSchema.addFollowerValidationSchema), userController.removeFollower)
+router.post('/follow',  userController.getFollowerAndFollowing)
 router.put('/update', validateRequest(userValidationSchema.updateUserValidationSchema), userController.updateUser)
 router.post('/update/status/:transId', userController.updateUserPremiumStatus)
 

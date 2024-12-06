@@ -21,6 +21,12 @@ class QueryBuilder<T> {
     }
     return this;
   }
+  category() {
+    if (this?.query?.category) {
+      this.modelQuery = this.modelQuery.find({ category: this.query.category })
+    }
+    return this;
+  }
 
   filter() {
     const queryObj = { ...this.query };
@@ -32,7 +38,8 @@ class QueryBuilder<T> {
       'fields',
       'minValue',
       'maxValue',
-      'upcoming'
+      'upcoming',
+      'category'
     ];
     excludeFields.forEach((el) => delete queryObj[el]);
 

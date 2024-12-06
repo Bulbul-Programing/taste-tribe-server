@@ -34,6 +34,31 @@ const addFollower = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
+const removeFollower = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.body.userId;
+    const followerId = req.body.followerId;
+    const payloadData = {
+        userId,
+        followerId
+    }
+    const result = await userService.removeFollowerIntoDB(payloadData);
+    res.status(200).json({
+        success: true,
+        massage: 'User unFollow successfully',
+        data: result
+    })
+})
+
+const getFollowerAndFollowing = catchAsync(async (req: Request, res: Response) => {
+    const followIds = req.body
+    const result = await userService.getFollowerAndFollowingDataIntoDB(followIds);
+    res.status(200).json({
+        success: true,
+        massage: 'Follow user retrieve successfully',
+        data: result
+    })
+})
+
 const updateUserPremiumStatus = catchAsync(async (req: Request, res: Response) => {
     const transId = req.params.transId;
     const result = await userService.updateUserPremiumStatusIntoDB(transId) as any
@@ -49,5 +74,7 @@ export const userController = {
     createUser,
     addFollower,
     updateUser,
-    updateUserPremiumStatus
+    updateUserPremiumStatus,
+    removeFollower,
+    getFollowerAndFollowing
 }

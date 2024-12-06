@@ -26,9 +26,15 @@ const addFollowerValidationSchema = z.object({
         userId: z.string({ required_error: 'UserId is required', invalid_type_error: 'UserId must be a string' }).regex(/^[a-f\d]{24}$/i, { message: "Invalid ObjectId", })
     })
 })
+const FollowValidationSchema = z.object({
+    body: z.object({
+        followIds: z.array(z.string({ required_error: 'followerIds is required', invalid_type_error: 'followerId must be a string' }).regex(/^[a-f\d]{24}$/i, { message: "Invalid ObjectId", }))
+    })
+})
 
 export const userValidationSchema = {
     createUserValidationSchema,
     updateUserValidationSchema,
-    addFollowerValidationSchema
+    addFollowerValidationSchema,
+    FollowValidationSchema
 }
