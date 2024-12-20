@@ -12,7 +12,7 @@ const paymentProcess = catchAsync(async (req: Request, res: Response) => {
       premiumStatus: false,
     }
     const updateUser = await userModel.updateOne({ email: user.email }, updateInfo, { new: true });
-   return res.status(200).json({
+    return res.status(200).json({
       userStatus: false,
       data: 'user status updated to Basic user!'
     });
@@ -20,7 +20,8 @@ const paymentProcess = catchAsync(async (req: Request, res: Response) => {
 
   const userData = {
     email: user.email,
-    payableAmount: updateInfo.payableAmount
+    payableAmount: updateInfo.payableAmount,
+    redirectUrl: updateInfo.redirectUrl
   }
   const result = await paymentGatewayService.paymentProcessIntoDB(userData);
 

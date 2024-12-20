@@ -9,7 +9,7 @@ const store_passwd = config.sslcommerzSecretId;
 const is_live = false;
 
 const paymentProcessIntoDB = async (
-  payload: { email: string, payableAmount: number },
+  payload: { email: string, payableAmount: number, redirectUrl: string },
 ) => {
   // checking user exist
   const user = await userModel.findOne({ email: payload.email });
@@ -19,12 +19,12 @@ const paymentProcessIntoDB = async (
   }
   // creating transitions id
   const tran_id = new ObjectId().toString();
-
+  console.log(payload);
   const data = {
     total_amount: payload.payableAmount,
     currency: 'BDT',
     tran_id: tran_id, // use unique tran_id for each api call
-    success_url: `http://localhost:5000/api/v1/user/update/status/${tran_id}`,
+    success_url: `http://localhost:5000/api/v1/user/update/status/${tran_id}/${payload.redirectUrl ? payload.redirectUrl : 'basicUser'}`,
     fail_url: `http://localhost:5000/api/v1/payment/redirect/fail`,
     cancel_url: 'https://assignment-three-sable.vercel.app/api/payment/redirect/facility',
     ipn_url: 'http://localhost:3030/ipn',

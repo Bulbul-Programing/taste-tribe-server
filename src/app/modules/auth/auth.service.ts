@@ -26,6 +26,7 @@ const loginUser = async (payload: TLogin) => {
     role: isExistUser.role,
     id : isExistUser._id,
     profilePicture: isExistUser.profilePicture.toString(),
+    premiumStatus : isExistUser.premiumStatus
   };
 
   const accessToken = createToken(

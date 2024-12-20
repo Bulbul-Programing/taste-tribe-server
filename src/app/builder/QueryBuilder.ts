@@ -1,4 +1,5 @@
 import { FilterQuery, Query } from 'mongoose';
+import { getCookingTime } from '../utils/getCookinTime';
 
 class QueryBuilder<T> {
   public modelQuery: Query<T[], T>;
@@ -12,11 +13,18 @@ class QueryBuilder<T> {
     if (this?.query?.searchTerm) {
       this.modelQuery = this.modelQuery.find({
         $or: searchAbleFields.map(
-          (field) =>
-            ({
+          (field) => {
+            if (field === 'ingredients') {
+              return { [field]: { $elemMatch: { $regex: this.query.searchTerm, $options: "i" } } };
+            }
+            if (field === 'cookingTime') {
+              const cookingTime = getCookingTime(this?.query?.searchTerm as string)
+              return { [field]: { $eq: cookingTime } }; 
+            }
+            return {
               [field]: { $regex: this.query.searchTerm, $options: 'i' },
-            }) as FilterQuery<T>,
-        ),
+            } as FilterQuery<T>
+          }),
       });
     }
     return this;

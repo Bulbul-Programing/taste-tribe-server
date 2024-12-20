@@ -10,6 +10,7 @@ router.post('/addFollower', validateRequest(userValidationSchema.addFollowerVali
 router.post('/removeFollower', validateRequest(userValidationSchema.addFollowerValidationSchema), userController.removeFollower)
 router.post('/follow',  userController.getFollowerAndFollowing)
 router.put('/update', validateRequest(userValidationSchema.updateUserValidationSchema), userController.updateUser)
-router.post('/update/status/:transId', userController.updateUserPremiumStatus)
+router.post('/update/status/:transId/recipeDetails/:redirectUrl', userController.updateUserPremiumStatusWithRedirect)
+router.post('/update/status/:transId/basicUser', userController.updateUserPremiumStatus)
 
 export const userRouter = router
