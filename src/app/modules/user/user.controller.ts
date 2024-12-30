@@ -62,7 +62,6 @@ const getFollowerAndFollowing = catchAsync(async (req: Request, res: Response) =
 const updateUserPremiumStatusWithRedirect = catchAsync(async (req: Request, res: Response) => {
     const transId = req.params.transId;
     const redirectUrl = req.params.redirectUrl
-    console.log(redirectUrl);
     const result = await userService.updateUserPremiumStatusIntoDB(transId) as any
     if (result.modifiedCount > 0) {
         res.redirect(`http://localhost:3000/recipeDetails/${redirectUrl}`)
@@ -75,7 +74,6 @@ const updateUserPremiumStatusWithRedirect = catchAsync(async (req: Request, res:
 const updateUserPremiumStatus = catchAsync(async (req: Request, res: Response) => {
     const transId = req.params.transId;
     const redirectUrl = req.params.redirectUrl
-    console.log(redirectUrl);
     const result = await userService.updateUserPremiumStatusIntoDB(transId) as any
     if (result.modifiedCount > 0) {
         res.redirect(`http://localhost:3000/payment/success`)

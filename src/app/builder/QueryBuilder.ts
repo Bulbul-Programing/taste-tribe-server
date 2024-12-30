@@ -19,7 +19,7 @@ class QueryBuilder<T> {
             }
             if (field === 'cookingTime') {
               const cookingTime = getCookingTime(this?.query?.searchTerm as string)
-              return { [field]: { $eq: cookingTime } }; 
+              return { [field]: { $eq: cookingTime } };
             }
             return {
               [field]: { $regex: this.query.searchTerm, $options: 'i' },

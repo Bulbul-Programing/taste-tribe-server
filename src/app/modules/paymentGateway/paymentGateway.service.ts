@@ -19,7 +19,6 @@ const paymentProcessIntoDB = async (
   }
   // creating transitions id
   const tran_id = new ObjectId().toString();
-  console.log(payload);
   const data = {
     total_amount: payload.payableAmount,
     currency: 'BDT',
