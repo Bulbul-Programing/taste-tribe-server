@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
 import { userService } from "./user.service";
+import { userModel } from "./user.model";
+import AppError from "../../error/AppError";
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
     const result = await userService.createNewUserIntoDB(req.body);
@@ -49,9 +51,33 @@ const removeFollower = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
-const getFollowerAndFollowing = catchAsync(async (req: Request, res: Response) => {
-    const followIds = req.body
-    const result = await userService.getFollowerAndFollowingDataIntoDB(followIds);
+const getFollower = catchAsync(async (req: Request, res: Response) => {
+    const userData = req.user
+    if (!userData) {
+        throw new AppError(404, 'You are not authorized!')
+    }
+    const isExistUser = await userModel.findById(userData.id)
+    if (!isExistUser) {
+        throw new AppError(404, 'User not found')
+    }
+    console.log(userData);
+    const result = await userService.getFollowerDataIntoDB(isExistUser.followers);
+    res.status(200).json({
+        success: true,
+        massage: 'Follow user retrieve successfully',
+        data: result
+    })
+})
+const getFollowing = catchAsync(async (req: Request, res: Response) => {
+    const userData = req.user
+    if (!userData) {
+        throw new AppError(404, 'You are not authorized!')
+    }
+    const isExistUser = await userModel.findById(userData.id)
+    if (!isExistUser) {
+        throw new AppError(404, 'User not found')
+    }
+    const result = await userService.getFollowingDataIntoDB(isExistUser.following);
     res.status(200).json({
         success: true,
         massage: 'Follow user retrieve successfully',
@@ -90,5 +116,6 @@ export const userController = {
     updateUserPremiumStatusWithRedirect,
     updateUserPremiumStatus,
     removeFollower,
-    getFollowerAndFollowing
+    getFollower,
+    getFollowing
 }

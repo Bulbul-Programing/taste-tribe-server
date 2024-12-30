@@ -82,16 +82,20 @@ const removeFollowerIntoDB = async (payload: { userId: string, followerId: strin
     }
 
     const result = await userModel.updateOne({ _id: payload.followerId }, { $pull: { followers: payload.userId } })
-  
+
     await userModel.updateOne({ _id: payload.userId }, { $pull: { following: payload.followerId } })
     return result
 
 
 }
 
-const getFollowerAndFollowingDataIntoDB = async (userIds: { followIds: string[] }) => {
-    
-    const result = await userModel.find({ _id: { $in: userIds.followIds } }).select({ name: 1, profilePicture : 1, email : 1 })
+const getFollowerDataIntoDB = async (followIds: string[]) => {
+    const result = await userModel.find({ _id: { $in: followIds } })
+    return result
+}
+
+const getFollowingDataIntoDB = async (followingIds: string[]) => {
+    const result = await userModel.find({ _id: { $in: followingIds } })
     return result
 }
 
@@ -138,5 +142,6 @@ export const userService = {
     addFollowerIntoDB,
     updateUserPremiumStatusIntoDB,
     removeFollowerIntoDB,
-    getFollowerAndFollowingDataIntoDB
+    getFollowerDataIntoDB,
+    getFollowingDataIntoDB
 }
