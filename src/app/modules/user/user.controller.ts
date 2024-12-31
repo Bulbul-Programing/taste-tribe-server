@@ -60,7 +60,7 @@ const getFollower = catchAsync(async (req: Request, res: Response) => {
     if (!isExistUser) {
         throw new AppError(404, 'User not found')
     }
-    console.log(userData);
+    
     const result = await userService.getFollowerDataIntoDB(isExistUser.followers);
     res.status(200).json({
         success: true,

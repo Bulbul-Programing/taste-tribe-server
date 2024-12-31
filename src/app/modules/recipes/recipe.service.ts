@@ -10,7 +10,7 @@ const getAllRecipesIntoDB = async (query: Record<string, unknown>) => {
         .searching(recipeSearchableField)
         .filter()
         .sort()
-        .paginate()
+        .infinityScroll()
         .fields()
         .priceFilter()
         .category()

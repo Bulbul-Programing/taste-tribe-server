@@ -70,6 +70,13 @@ class QueryBuilder<T> {
     return this;
   }
 
+  infinityScroll() {
+    const page = Number(this.query.page) || 1;
+    const limit = Number(this.query.limit) || 10;
+    this.modelQuery = this.modelQuery.limit(limit*page);
+    return this;
+  }
+
   priceFilter() {
     const minValue = this.query.minValue ? Number(this.query.minValue) : null;
     const maxValue = this.query.maxValue ? Number(this.query.maxValue) : null;
