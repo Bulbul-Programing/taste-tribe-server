@@ -136,6 +136,15 @@ const updateUserPremiumStatusIntoDB = async (transId: string) => {
     return result
 }
 
+const getTopFiveFollowersIntoDB = async () => {
+    const result = await userModel.aggregate([
+        {
+            $sort: { followers: -1 }
+        }
+    ]).limit(5)
+    return result
+}
+
 export const userService = {
     createNewUserIntoDB,
     updateUserDataIntoDB,
@@ -143,5 +152,6 @@ export const userService = {
     updateUserPremiumStatusIntoDB,
     removeFollowerIntoDB,
     getFollowerDataIntoDB,
-    getFollowingDataIntoDB
+    getFollowingDataIntoDB,
+    getTopFiveFollowersIntoDB
 }

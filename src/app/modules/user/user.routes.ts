@@ -10,6 +10,7 @@ router.post('/signup', validateRequest(userValidationSchema.createUserValidation
 router.post('/addFollower', validateRequest(userValidationSchema.addFollowerValidationSchema), userController.addFollower)
 router.post('/removeFollower', validateRequest(userValidationSchema.addFollowerValidationSchema), userController.removeFollower)
 router.get('/followers', verifyToken('user'), userController.getFollower)
+router.get('/topFiveFollowers', userController.getTopFiveFollowers)
 router.get('/following', verifyToken('user'), userController.getFollowing)
 router.put('/update', validateRequest(userValidationSchema.updateUserValidationSchema), userController.updateUser)
 router.post('/update/status/:transId/recipeDetails/:redirectUrl', userController.updateUserPremiumStatusWithRedirect)

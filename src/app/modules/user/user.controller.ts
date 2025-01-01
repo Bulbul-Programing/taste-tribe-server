@@ -60,7 +60,7 @@ const getFollower = catchAsync(async (req: Request, res: Response) => {
     if (!isExistUser) {
         throw new AppError(404, 'User not found')
     }
-    
+
     const result = await userService.getFollowerDataIntoDB(isExistUser.followers);
     res.status(200).json({
         success: true,
@@ -109,6 +109,15 @@ const updateUserPremiumStatus = catchAsync(async (req: Request, res: Response) =
     }
 })
 
+const getTopFiveFollowers = catchAsync(async (req: Request, res: Response) => {
+    const result = await userService.getTopFiveFollowersIntoDB()
+    res.status(200).json({
+        success: true,
+        massage: 'Top five follower retrieve successfully!',
+        data: result
+    })
+})
+
 export const userController = {
     createUser,
     addFollower,
@@ -117,5 +126,6 @@ export const userController = {
     updateUserPremiumStatus,
     removeFollower,
     getFollower,
-    getFollowing
+    getFollowing,
+    getTopFiveFollowers
 }
