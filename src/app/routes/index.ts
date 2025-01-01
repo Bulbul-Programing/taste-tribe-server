@@ -5,6 +5,7 @@ import { recipesRouter } from '../modules/recipes/recipe.routes';
 import { resetPasswordRoute } from '../modules/resetPassword/resetPassword.routes';
 import { paymentGateway } from '../modules/paymentGateway/paymentGateway.routes';
 import { commentRouter } from '../modules/recipeComment/comment.routes';
+import { ratingRouter } from '../modules/recipeRating/rating.routes';
 
 const router = express.Router()
 
@@ -32,6 +33,10 @@ const moduleRoutes = [
     {
         path: '/comment',
         route: commentRouter
+    },
+    {
+        path: '/rating',
+        route: ratingRouter
     }
 ]
 
