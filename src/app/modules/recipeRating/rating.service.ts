@@ -14,6 +14,12 @@ const addRatingIntoDB = async (payload: { userId: string, recipeId: string, rati
         throw new AppError(404, 'Recipe not found')
     }
 
+    const isThisUserAlreadyRating = await ratingModel.findOne({ userId: payload.userId, recipeId: payload.recipeId })
+    if (isThisUserAlreadyRating) {
+        const result = await ratingModel.findByIdAndUpdate(isThisUserAlreadyRating._id, { rating: payload.rating })
+        return result
+    }
+
     const result = await ratingModel.create(payload)
     return result
 }
@@ -23,7 +29,30 @@ const getRatingIntoDB = async (recipeId: string) => {
     return result
 }
 
+const getAverageRatingInRecipeIntoDB = async (recipeId: string) => {
+    const isExistRecipe = await recipeModel.findById(recipeId)
+    if (!isExistRecipe) {
+        throw new AppError(404, 'recipe not found!')
+    }
+    const result = await ratingModel.aggregate([
+        {
+            $group: {
+                _id: "$recipeId",
+                averageRating: { $avg: "$rating" }
+            }
+        }
+    ])
+    return result
+}
+
+const userRatingThisRecipeIntoDB = async (userId: string, recipeId: string) => {
+    const isThisUserAlreadyRating = await ratingModel.findOne({ userId, recipeId })
+    return isThisUserAlreadyRating
+}
+
 export const ratingServer = {
     addRatingIntoDB,
-    getRatingIntoDB
+    getRatingIntoDB,
+    getAverageRatingInRecipeIntoDB,
+    userRatingThisRecipeIntoDB
 }

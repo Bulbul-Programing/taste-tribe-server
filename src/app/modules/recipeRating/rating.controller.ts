@@ -25,7 +25,32 @@ const getRating = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
+const getAverageRatingInRecipe = catchAsync(async (req: Request, res: Response) => {
+    const recipeId = req.params.recipeId
+    const result = await ratingServer.getAverageRatingInRecipeIntoDB(recipeId)
+
+    res.status(200).json({
+        success: true,
+        massage: 'Recipe rating average retrieve successfully',
+        data: result
+    })
+})
+
+const userRatingThisRecipe = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.params.userId
+    const recipeId = req.params.recipeId
+    const result = await ratingServer.userRatingThisRecipeIntoDB(userId, recipeId)
+
+    res.status(200).json({
+        success: true,
+        massage: 'user Rating This Recipe',
+        data: result
+    })
+})
+
 export const ratingController = {
     addRating,
     getRating,
+    getAverageRatingInRecipe,
+    userRatingThisRecipe
 }

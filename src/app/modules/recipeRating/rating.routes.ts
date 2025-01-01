@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.post('/', validateRequest(ratingValidating.createRatingValidationSchema), ratingController.addRating)
 router.get('/', ratingController.getRating)
+router.get('/average/:recipeId', ratingController.getAverageRatingInRecipe)
+router.get('/:userId/:recipeId', ratingController.userRatingThisRecipe)
 export const ratingRouter = router
