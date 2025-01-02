@@ -2,6 +2,7 @@ import AppError from "../../error/AppError"
 import { recipeModel } from "../recipes/recipe.model"
 import { userModel } from "../user/user.model"
 import { ratingModel } from "./rating.model"
+import { ObjectId } from 'mongodb';
 
 const addRatingIntoDB = async (payload: { userId: string, recipeId: string, rating: number }) => {
     const isExistUser = await userModel.findById(payload.userId)
@@ -35,6 +36,9 @@ const getAverageRatingInRecipeIntoDB = async (recipeId: string) => {
         throw new AppError(404, 'recipe not found!')
     }
     const result = await ratingModel.aggregate([
+        {
+            $match: { recipeId: new ObjectId(recipeId) }
+        },
         {
             $group: {
                 _id: "$recipeId",
