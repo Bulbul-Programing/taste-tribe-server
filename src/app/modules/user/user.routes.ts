@@ -7,6 +7,8 @@ import verifyToken from '../../middleware/verifyToken';
 const router = express.Router()
 
 router.post('/signup', validateRequest(userValidationSchema.createUserValidationSchema), userController.createUser)
+router.get('/allUsers', verifyToken('admin'), userController.getAllUser)
+router.get('/allUsers/count', verifyToken('admin'), userController.getAllUserCount)
 router.post('/addFollower', validateRequest(userValidationSchema.addFollowerValidationSchema), userController.addFollower)
 router.post('/removeFollower', validateRequest(userValidationSchema.addFollowerValidationSchema), userController.removeFollower)
 router.get('/followers', verifyToken('user'), userController.getFollower)

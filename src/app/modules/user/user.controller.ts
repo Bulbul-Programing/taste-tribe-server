@@ -12,6 +12,25 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
         data: result
     })
 })
+
+const getAllUserCount = catchAsync(async (req: Request, res: Response) => {
+    const result = await userService.getAllUserCountIntoDB();
+    res.status(200).json({
+        success: true,
+        massage: 'All user Count successfully',
+        data: result
+    })
+})
+
+const getAllUser = catchAsync(async (req: Request, res: Response) => {
+    const result = await userService.getAllUserIntoDB();
+    res.status(200).json({
+        success: true,
+        massage: 'All user retrieve successfully',
+        data: result
+    })
+})
+
 const updateUser = catchAsync(async (req: Request, res: Response) => {
     const result = await userService.updateUserDataIntoDB(req.body);
     res.status(200).json({
@@ -120,6 +139,8 @@ const getTopFiveFollowers = catchAsync(async (req: Request, res: Response) => {
 
 export const userController = {
     createUser,
+    getAllUser,
+    getAllUserCount,
     addFollower,
     updateUser,
     updateUserPremiumStatusWithRedirect,

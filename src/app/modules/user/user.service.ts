@@ -38,6 +38,16 @@ const createNewUserIntoDB = async (payload: TUser) => {
     return { accessToken, refreshToken }
 }
 
+const getAllUserCountIntoDB = async () => {
+    const result = await userModel.countDocuments()
+    return result
+}
+
+const getAllUserIntoDB = async () => {
+    const result = await userModel.find()
+    return result
+}
+
 const addFollowerIntoDB = async (payload: { userId: string, followerId: string }) => {
     const isExistUser = await userModel.findById(payload.userId)
     if (!isExistUser) {
@@ -147,6 +157,8 @@ const getTopFiveFollowersIntoDB = async () => {
 
 export const userService = {
     createNewUserIntoDB,
+    getAllUserCountIntoDB,
+    getAllUserIntoDB,
     updateUserDataIntoDB,
     addFollowerIntoDB,
     updateUserPremiumStatusIntoDB,
