@@ -65,6 +65,16 @@ const getTotalUserRecipe = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
+const getTotalRecipeCount = catchAsync(async (req: Request, res: Response) => {
+    const result = await recipeService.getTotalRecipeCountIntoDB()
+
+    res.status(200).json({
+        success: true,
+        massage: 'Total Recipe count successfully',
+        data: result
+    })
+})
+
 const createRecipe = catchAsync(async (req: Request, res: Response) => {
     const recipeData = req.body
     const result = await recipeService.createRecipeIntoDB(recipeData)
@@ -102,6 +112,7 @@ const deleteRecipe = catchAsync(async (req: Request, res: Response) => {
 export const recipeController = {
     getAllRecipes,
     getUserAllRecipes,
+    getTotalRecipeCount,
     getRecipeDetails,
     createRecipe,
     updateRecipe,

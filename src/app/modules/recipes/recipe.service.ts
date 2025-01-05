@@ -54,6 +54,11 @@ const getTotalUserRecipeIntoDB = async (email: string) => {
     return totalRecipe;
 }
 
+const getTotalRecipeCountIntoDB = async () => {
+    const result = await recipeModel.countDocuments()
+    return result
+}
+
 const createRecipeIntoDB = async (payload: TRecipe) => {
     const user = await userModel.findById(payload.userId)
     if (!user) {
@@ -121,6 +126,7 @@ const addVotingInRecipeIntoDB = async (payload: { userId: string, recipeId: stri
 export const recipeService = {
     getAllRecipesIntoDB,
     getUserAllRecipesIntoDB,
+    getTotalRecipeCountIntoDB,
     getRecipeDetailsIntoDB,
     createRecipeIntoDB,
     updateRecipeIntoDB,

@@ -137,6 +137,18 @@ const getTopFiveFollowers = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
+const deleteUser = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.params.userId
+    console.log(userId);
+    const result = await userService.deleteUserIntoDB(userId)
+    res.status(200).json({
+        success: true,
+        massage: 'user Delete successfully ',
+        data: result
+    })
+})
+
+
 export const userController = {
     createUser,
     getAllUser,
@@ -148,5 +160,6 @@ export const userController = {
     removeFollower,
     getFollower,
     getFollowing,
-    getTopFiveFollowers
+    getTopFiveFollowers,
+    deleteUser
 }

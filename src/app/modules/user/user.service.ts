@@ -155,6 +155,15 @@ const getTopFiveFollowersIntoDB = async () => {
     return result
 }
 
+const deleteUserIntoDB = async (id: string) => {
+    const isExistUser = await userModel.findById(id)
+    if (!isExistUser) {
+        throw new AppError(404, 'user not found!')
+    }
+    const result = await userModel.findByIdAndDelete(id)
+    return result
+}
+
 export const userService = {
     createNewUserIntoDB,
     getAllUserCountIntoDB,
@@ -165,5 +174,6 @@ export const userService = {
     removeFollowerIntoDB,
     getFollowerDataIntoDB,
     getFollowingDataIntoDB,
-    getTopFiveFollowersIntoDB
+    getTopFiveFollowersIntoDB,
+    deleteUserIntoDB
 }
