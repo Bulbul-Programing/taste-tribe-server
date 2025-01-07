@@ -156,12 +156,25 @@ const getTopFiveFollowersIntoDB = async () => {
 }
 
 const deleteUserIntoDB = async (id: string) => {
-    const isExistUser = await userModel.findById(id)
+    const isExistUser = await userModel.find({ followers: id })
     if (!isExistUser) {
         throw new AppError(404, 'user not found!')
     }
+    // Delete this user which use follow
+    await userModel.updateMany({ followers: id }, { $pull: { followers: id } })
+    // Delete this user which use followIng
+    await userModel.updateMany({ following: id }, { $pull: { following: id } })
     const result = await userModel.findByIdAndDelete(id)
     return result
+}
+
+const blockUserIntoDB = async (payload: { id: string, blockStatus: boolean }) => {
+    const isUserExist = await userModel.findById(payload.id)
+    if (!isUserExist) {
+        throw new AppError(404, 'user not found')
+    }
+    const blockedUser = await userModel.findByIdAndUpdate(payload.id, { blockedUser: payload.blockStatus }, { new: true })
+    return blockedUser
 }
 
 export const userService = {
@@ -175,5 +188,6 @@ export const userService = {
     getFollowerDataIntoDB,
     getFollowingDataIntoDB,
     getTopFiveFollowersIntoDB,
-    deleteUserIntoDB
+    deleteUserIntoDB,
+    blockUserIntoDB
 }

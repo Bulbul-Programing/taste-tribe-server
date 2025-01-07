@@ -18,5 +18,5 @@ router.put('/update', validateRequest(userValidationSchema.updateUserValidationS
 router.post('/update/status/:transId/recipeDetails/:redirectUrl', userController.updateUserPremiumStatusWithRedirect)
 router.post('/update/status/:transId/basicUser', userController.updateUserPremiumStatus)
 router.delete('/delete/:userId', verifyToken('admin'), userController.deleteUser)
-
+router.put('/blocked', userController.blockedUser)
 export const userRouter = router

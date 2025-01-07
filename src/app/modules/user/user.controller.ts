@@ -139,11 +139,20 @@ const getTopFiveFollowers = catchAsync(async (req: Request, res: Response) => {
 
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
     const userId = req.params.userId
-    console.log(userId);
     const result = await userService.deleteUserIntoDB(userId)
     res.status(200).json({
         success: true,
         massage: 'user Delete successfully ',
+        data: result
+    })
+})
+const blockedUser = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.body.userId
+    const blockStatus = req.body.blockStatus
+    const result = await userService.blockUserIntoDB({ id: userId, blockStatus })
+    res.status(200).json({
+        success: true,
+        massage: 'user Blocked status update successfully ',
         data: result
     })
 })
@@ -161,5 +170,6 @@ export const userController = {
     getFollower,
     getFollowing,
     getTopFiveFollowers,
-    deleteUser
+    deleteUser,
+    blockedUser
 }

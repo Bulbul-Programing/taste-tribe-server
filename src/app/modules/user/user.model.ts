@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import config from "../../config";
 import { NextFunction } from "express";
 const follower = new Schema({
-    id: { type: String , ref : 'user'}
+    id: { type: String, ref: 'user' }
 })
 const userSchema = new Schema<TUser>({
     name: { type: String, required: true },
@@ -15,8 +15,9 @@ const userSchema = new Schema<TUser>({
     followers: { type: [String], required: true },
     following: { type: [String], required: true },
     profilePicture: { type: String, default: null },
-    premiumStatus: { type: "boolean", default: false },
-    transitionId : {type : String, required : false}
+    premiumStatus: { type: Boolean, default: false },
+    transitionId: { type: String, required: false },
+    blockedUser: { type: Boolean, default: false }
 })
 
 userSchema.pre('save', async function (next) {
