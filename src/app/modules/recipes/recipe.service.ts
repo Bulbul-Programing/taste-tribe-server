@@ -19,21 +19,35 @@ const getAllRecipesIntoDB = async (query: Record<string, unknown>) => {
     return result
 }
 
-const getUserAllRecipesIntoDB = async (email: string, query: Record<string, unknown>) => {
+const getUserAllRecipesIntoDB = async (email: string, query: Record<string, unknown>, role: string) => {
     const isExistUser = await userModel.findOne({ email: email })
     if (!isExistUser) {
         throw new AppError(401, 'User not found')
     }
-    const recipeQuery = new QueryBuilder(recipeModel.find({ userId: isExistUser._id }), query)
-        .searching(recipeSearchableField)
-        .filter()
-        .sort()
-        .paginate()
-        .fields()
-        .priceFilter()
+    if (role === 'user') {
+        const recipeQuery = new QueryBuilder(recipeModel.find({ userId: isExistUser._id }), query)
+            .searching(recipeSearchableField)
+            .filter()
+            .sort()
+            .paginate()
+            .fields()
+            .priceFilter()
 
-    const result = await recipeQuery.modelQuery
-    return result
+        const result = await recipeQuery.modelQuery
+        return result
+    }
+    if (role === 'admin') {
+        const recipeQuery = new QueryBuilder(recipeModel.find(), query)
+            .searching(recipeSearchableField)
+            .filter()
+            .sort()
+            .paginate()
+            .fields()
+            .priceFilter()
+
+        const result = await recipeQuery.modelQuery
+        return result
+    }
 }
 
 const getRecipeDetailsIntoDB = async (recipeId: string) => {
@@ -123,6 +137,15 @@ const addVotingInRecipeIntoDB = async (payload: { userId: string, recipeId: stri
     }
 }
 
+const blockRecipeAdminIntoDB = async ({ recipeId, status }: { recipeId: string, status: boolean }) => {
+    const isExistRecipe = await recipeModel.findById(recipeId)
+    if (!isExistRecipe) {
+        throw new AppError(404, 'Recipe not found!')
+    }
+    const result = await recipeModel.findByIdAndUpdate(recipeId, { blockStatus: status })
+    return result
+}
+
 export const recipeService = {
     getAllRecipesIntoDB,
     getUserAllRecipesIntoDB,
@@ -132,5 +155,6 @@ export const recipeService = {
     updateRecipeIntoDB,
     deleteRecipeIntoDB,
     getTotalUserRecipeIntoDB,
-    addVotingInRecipeIntoDB
+    addVotingInRecipeIntoDB,
+    blockRecipeAdminIntoDB
 }

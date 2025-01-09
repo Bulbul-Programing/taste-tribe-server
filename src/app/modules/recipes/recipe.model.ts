@@ -12,6 +12,7 @@ const recipeSchema = new Schema<TRecipe>({
     cookingTime: { type: Number, required: true },
     category: { type: String, required: true },
     premiumStatus: { type: Boolean, required: true },
+    blockStatus: { type: Boolean, default: false, required: false },
     image: { type: String, required: true },
 }, { timestamps: true })
 

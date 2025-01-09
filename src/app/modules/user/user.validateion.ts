@@ -8,7 +8,7 @@ const createUserValidationSchema = z.object({
         role: z.enum(['user', 'admin'], { required_error: 'role is required' }),
         profilePicture: z.string({ required_error: 'Profile Photo is required', invalid_type_error: 'profile photo must be a string' }),
         premiumStatus: z.boolean(),
-        blockedUser: z.boolean()
+        blockedUser: z.boolean().default(false)
     })
 })
 const updateUserValidationSchema = z.object({

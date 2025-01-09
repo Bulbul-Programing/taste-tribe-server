@@ -12,4 +12,5 @@ export type TRecipe = {
     image: String,
     userId: ObjectId,
     premiumStatus: Boolean,
+    blockStatus : Boolean
 }

@@ -16,7 +16,7 @@ const getAllRecipes = catchAsync(async (req: Request, res: Response) => {
 const getUserAllRecipes = catchAsync(async (req: Request, res: Response) => {
     const query = req.query
     const { email } = req.user
-    const result = await recipeService.getUserAllRecipesIntoDB(email, query)
+    const result = await recipeService.getUserAllRecipesIntoDB(email, query, req.user.role)
 
     res.status(200).json({
         success: true,
@@ -108,6 +108,20 @@ const deleteRecipe = catchAsync(async (req: Request, res: Response) => {
         data: result
     })
 })
+const blockRecipeAdmin = catchAsync(async (req: Request, res: Response) => {
+    const recipeId = req.params.id
+    const payload = {
+        recipeId,
+        status: req.body.blockStatus
+    }
+    const result = await recipeService.blockRecipeAdminIntoDB(payload)
+
+    res.status(200).json({
+        success: true,
+        massage: 'Recipe Block status successfully',
+        data: result
+    })
+})
 
 export const recipeController = {
     getAllRecipes,
@@ -118,5 +132,6 @@ export const recipeController = {
     updateRecipe,
     deleteRecipe,
     getTotalUserRecipe,
-    voteInRecipe
+    voteInRecipe,
+    blockRecipeAdmin
 }
