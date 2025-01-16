@@ -6,7 +6,7 @@ import { TRecipe } from "./recipe.interface";
 import { recipeModel } from "./recipe.model";
 
 const getAllRecipesIntoDB = async (query: Record<string, unknown>) => {
-    const recipeQuery = new QueryBuilder(recipeModel.find().populate('userId'), query)
+    const recipeQuery = new QueryBuilder(recipeModel.find({ blockStatus: false }).populate('userId'), query)
         .searching(recipeSearchableField)
         .filter()
         .sort()
@@ -56,6 +56,9 @@ const getRecipeDetailsIntoDB = async (recipeId: string) => {
     if (!isExistRecipe) {
         throw new AppError(404, 'Recipe not found')
     }
+    if (isExistRecipe.blockStatus) {
+        throw new AppError(500, ' This Recipe Was Blocked')
+    }
     return isExistRecipe
 }
 
@@ -78,7 +81,9 @@ const createRecipeIntoDB = async (payload: TRecipe) => {
     if (!user) {
         throw new AppError(401, 'User not found')
     }
-
+    if (user.blockedUser) {
+        throw new AppError(500, 'this user is Blocked!')
+    }
     const createRecipe = await recipeModel.create(payload);
     return createRecipe;
 }

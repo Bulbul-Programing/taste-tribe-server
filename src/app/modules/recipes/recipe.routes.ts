@@ -6,7 +6,7 @@ import verifyToken from '../../middleware/verifyToken';
 
 const router = express.Router();
 
-router.get('/', verifyToken('user', 'admin'), recipeController.getAllRecipes)
+router.get('/', recipeController.getAllRecipes)
 router.get('/user', verifyToken('user', 'admin'), recipeController.getUserAllRecipes)
 router.get('/details/:recipeId', recipeController.getRecipeDetails)
 router.get('/user/count', verifyToken('user', 'admin'), recipeController.getTotalUserRecipe)
