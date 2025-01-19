@@ -109,10 +109,10 @@ const updateUserPremiumStatusWithRedirect = catchAsync(async (req: Request, res:
     const redirectUrl = req.params.redirectUrl
     const result = await userService.updateUserPremiumStatusIntoDB(transId) as any
     if (result.modifiedCount > 0) {
-        res.redirect(`http://localhost:3000/recipeDetails/${redirectUrl}`)
+        res.redirect(`https://taste-tribe-clint.vercel.app/recipeDetails/${redirectUrl}`)
     }
     else {
-        res.redirect(`http://localhost:3000/payment/fail`)
+        res.redirect(`https://taste-tribe-clint.vercel.app/payment/fail`)
     }
 })
 
@@ -121,10 +121,10 @@ const updateUserPremiumStatus = catchAsync(async (req: Request, res: Response) =
     const redirectUrl = req.params.redirectUrl
     const result = await userService.updateUserPremiumStatusIntoDB(transId) as any
     if (result.modifiedCount > 0) {
-        res.redirect(`http://localhost:3000/payment/success`)
+        res.redirect(`https://taste-tribe-clint.vercel.app/payment/success`)
     }
     else {
-        res.redirect(`http://localhost:3000/payment/fail`)
+        res.redirect(`https://taste-tribe-clint.vercel.app/payment/fail`)
     }
 })
 

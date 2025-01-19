@@ -20,7 +20,7 @@ const resetPasswordMailSendIntoDB = async (payload: TResetPassword) => {
   const generateToken = createToken(jwtPayload, config.resetPasswordSecrete as string, '1m')
 
 
-  const resetPasswordUrl = `http://localhost:3000/auth/resetPassword?token=${generateToken}`
+  const resetPasswordUrl = `https://taste-tribe-clint.vercel.app/auth/resetPassword?token=${generateToken}`
   
   const data = {
     token : generateToken,

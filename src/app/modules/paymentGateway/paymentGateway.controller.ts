@@ -32,7 +32,7 @@ const paymentProcess = catchAsync(async (req: Request, res: Response) => {
 
 const redirect = catchAsync(async (req: Request, res: Response) => {
   const params = req.params.path
-  res.redirect(`http://localhost:3000/payment/${params}`)
+  res.redirect(`https://taste-tribe-clint.vercel.app/payment/${params}`)
 });
 
 export const paymentGatewayController = {
