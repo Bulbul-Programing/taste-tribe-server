@@ -7,7 +7,7 @@ import globalErrorHandler from './app/middleware/globalErrorHandler';
 
 app.use(express.json())
 app.use(cors({
-  origin: ['http://localhost:3000'],
+  origin: ['http://localhost:3000', 'https://taste-tribe-clint.vercel.app'],
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE']
