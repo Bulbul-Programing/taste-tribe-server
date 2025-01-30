@@ -23,8 +23,8 @@ const paymentProcessIntoDB = async (
     total_amount: payload.payableAmount,
     currency: 'BDT',
     tran_id: tran_id, // use unique tran_id for each api call
-    success_url: `http://localhost:5000/api/v1/user/update/status/${tran_id}/${payload.redirectUrl ? payload.redirectUrl : 'basicUser'}`,
-    fail_url: `http://localhost:5000/api/v1/payment/redirect/fail`,
+    success_url: `https://taste-tribe-server.vercel.app/api/v1/user/update/status/${tran_id}/${payload.redirectUrl ? payload.redirectUrl : 'basicUser'}`,
+    fail_url: `https://taste-tribe-server.vercel.app/api/v1/payment/redirect/fail`,
     cancel_url: 'https://assignment-three-sable.vercel.app/api/payment/redirect/facility',
     ipn_url: 'http://localhost:3030/ipn',
     shipping_method: 'Courier',
